@@ -13,8 +13,7 @@ vehicle_data <- read_csv("stop_event_sample2.csv")
 # to calculate the total_trip_time in seconds
 
 trip_durations <- vehicle_data |> 
-  mutate(DIRECTION_CHAR = case_when(DIRECTION == 1 ~ '1',
-            DIRECTION == 0 ~ '0')) |> 
+  mutate(DIRECTION_CHAR = as.factor(DIRECTION)) |> 
   group_by(VEHICLE_NUMBER, ROUTE_NUMBER, DIRECTION_CHAR, TRIP_NUMBER) |> 
   summarize(TOTAL_TRIP_TIME_SECONDS=max(ARRIVE_TIME)-min(LEAVE_TIME)) |> 
   ungroup() |> 
