@@ -33,7 +33,7 @@ route_72_standing_room |>
   )) + 
   geom_col(width = .75) +
   labs(title="Percent of Trips with Standing Room Only By Trip Start Time",
-       subtitle = str_glue("{route_name}"),x=NULL,y=NULL) + 
+       subtitle = str_glue("{route_name}"),x=NULL,y=" ") + 
   scale_x_continuous(labels= percent, limits = c(0,1), expand = c(0,0)) +
   theme_minimal()
 
