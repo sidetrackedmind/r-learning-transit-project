@@ -17,20 +17,23 @@ route_name <- route_72_standing_room |>
 # transit does a weird thing where late night service is considered the same 
 # service date even though it's technically the next day at 1am etc
 route_72_standing_room |> 
-  group_by(PUBLIC_ROUTE_DESCRIPTION, PUBLIC_DIRECTION_DESCRIPTION,TRIP_BEGIN_TIME, TRIP_BEGIN_TIME_STR) |> 
+  group_by(PUBLIC_ROUTE_DESCRIPTION, PUBLIC_DIRECTION_DESCRIPTION, TRIP_BEGIN_TIME_STR) |> 
   summarise(
     STANDING_ROOM_INSTANCES=max(STANDING_ROOM_COUNT),
-    NUM_TRIPS=max(NUM_TRIPS)
+    NUM_TRIPS=max(NUM_TRIPS),
+    TRIP_BEGIN_TIME=max(TRIP_BEGIN_TIME)
   ) |> 
   ungroup()  |> 
-  mutate(PERCENT_OF_TOTAL_TRIPS=STANDING_ROOM_INSTANCES/NUM_TRIPS,
-         TRIP_BEGIN_TIME_NUM=as.double(TRIP_BEGIN_TIME)) |> 
-  mutate(TRIP_BEGIN_TIME_STR=fct_reorder(TRIP_BEGIN_TIME_STR, TRIP_BEGIN_TIME_NUM)) |>
+  mutate(PERCENT_OF_TOTAL_TRIPS=STANDING_ROOM_INSTANCES/NUM_TRIPS
+         ,TRIP_BEGIN_TIME_NUM=as.double(TRIP_BEGIN_TIME)
+         ) |> 
+  mutate(TRIP_BEGIN_TIME_STR=fct_reorder(TRIP_BEGIN_TIME_STR, TRIP_BEGIN_TIME)) |>
   ggplot(aes(x=PERCENT_OF_TOTAL_TRIPS
              , y= TRIP_BEGIN_TIME_STR
   )) + 
-  geom_col() +
+  geom_col(width = .75) +
   labs(title="Percent of Trips with Standing Room Only By Trip Start Time",
-       # trick help from Gracielle
        subtitle = str_glue("{route_name}"),x=NULL,y=NULL) + 
-  scale_x_continuous(labels= percent)
+  scale_x_continuous(labels= percent, limits = c(0,1), expand = c(0,0)) +
+  theme_minimal()
+

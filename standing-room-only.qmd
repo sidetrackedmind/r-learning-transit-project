@@ -44,8 +44,8 @@ route_72_standing_room |>
   ) |> 
   ungroup()  |> 
   mutate(PERCENT_OF_TOTAL_TRIPS=STANDING_ROOM_INSTANCES/NUM_TRIPS,
-         TRIP_BEGIN_TIME_NUM=as.double(TRIP_BEGIN_TIME)) |> 
-  mutate(TRIP_BEGIN_TIME_STR=fct_reorder(TRIP_BEGIN_TIME_STR, TRIP_BEGIN_TIME_NUM)) |>
+         TRIP_BEGIN_TIME_PARSE=parse_time(TRIP_BEGIN_TIME_STR)) |> 
+  mutate(TRIP_BEGIN_TIME_STR=fct_reorder(TRIP_BEGIN_TIME_STR, TRIP_BEGIN_TIME)) |>
   ggplot(aes(x=PERCENT_OF_TOTAL_TRIPS
              , y= TRIP_BEGIN_TIME_STR
              )) + 
