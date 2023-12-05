@@ -13,6 +13,8 @@ stop_event_data |>
        subtitle = "Route [Insert Route Description Here]",
        x=NULL, y=NULL, fill=NULL)
 
+route_name <- stop_event_data |> 
+  distinct(public_route_description)
 
 passenger_boardings_by_date <- stop_event_data |> 
   group_by(route_number, public_route_description, service_date) |> 
@@ -23,5 +25,6 @@ ggplot(data=passenger_boardings_by_date,
                    fill=service_date)) +
   geom_col(show.legend = FALSE) +
   labs(title="Total Passenger Boardings By Date",
-       subtitle = "Route [Insert Route Description Here]",x=NULL,y=NULL) +
+        # trick help from Gracielle
+       subtitle = str_glue("Route {route_name}"),x=NULL,y=NULL) +
   theme_fivethirtyeight(base_size=14)

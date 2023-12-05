@@ -1,3 +1,6 @@
+#password data
+Pass.csv
+
 # History files
 .Rhistory
 .Rapp.history
@@ -31,6 +34,7 @@ vignettes/*.pdf
 # knitr and R markdown default cache directories
 *_cache/
 /cache/
+standing-room-only_files/libs/*
 
 # Temporary files created by R markdown
 *.utf8.md
